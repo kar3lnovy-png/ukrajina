@@ -149,7 +149,7 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
       <a href="#uvod">Úvod</a>
       <a href="#koordinatori">Koordinátoři</a>
       <a href="#farnosti">Farnosti</a>
-      <a href="#sponzori">Sponzoři</a>
+      <a href="#sponzori">Akci podpořili</a>
     </nav>
   </div>
 </header>
@@ -222,8 +222,8 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
       <h2>Co zajistíme</h2>
       <div class="grid cols">
         <div class="card"><div class="sh"></div><h3>Pokladničky</h3><p>Zapečetěné, s číslem farnosti.</p></div>
-        <div class="card"><div class="sh c"></div><h3>Plakáty a ohlášky</h3><p>Hotové texty pro faráře a nástěnku.</p><a href="#" download>Stáhnout materiály</a><!-- doplňte odkaz na PDF --></div>
-        <div class="card"><div class="sh q"></div><h3>Kartičky s poděkováním</h3><p>S QR kódem pro pravidelné dary.</p><a href="#" download>Stáhnout vzor</a><!-- doplňte odkaz na PDF --></div>
+        <div class="card"><div class="sh c"></div><h3>Plakáty a ohlášky</h3><p>Hotové texty pro faráře a na nástěnku.</p><a/div>
+        <div class="card"><div class="sh q"></div><h3>Kartičky s poděkováním</h3><p>S QR kódem pro pravidelné dary.</p><a/div>
         <div class="card"><div class="sh h"></div><h3>Tácky a folie</h3><p>Pro přípravu balíčků.</p></div>
       </div>
     </div>
@@ -245,7 +245,7 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
 <!-- ===== SPONZOŘI ===== -->
 <section class="page" id="p-sponzori">
   <div class="wrap">
-    <h2 class="title">Partneři a sponzoři</h2>
+    <h2 class="title">Podpořili nás:</h2>
     <p class="lead">Díky těmto partnerům může sbírka proběhnout. Chcete se přidat? Napište nám na <a href="mailto:info@example.cz">info@example.cz</a>.</p>
     <!-- LOGA: nahraďte obsah bloků za <img src="..." alt="Název partnera"> -->
     <div class="logos">
@@ -330,7 +330,7 @@ document.getElementById("reg").addEventListener("submit",e=>{
     method: "POST",
     body: new FormData(f)
   }).then(res => {
-    m.textContent="Děkujeme. Vaše farnost byla úspěšně registrována.";
+    m.textContent="Děkujeme. Vaše farnost byla úspěšně registrována. Brzy se vám ozveme s podrobnějšími informacemi.";
     m.hidden=false;
     f.reset();
   }).catch(err => {
