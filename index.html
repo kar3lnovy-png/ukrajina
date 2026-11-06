@@ -317,7 +317,7 @@ function route(){
 addEventListener("hashchange",route);route();
 
 /* ---- formulář: odeslání přes AppScript ---- */
-const APPSCRIPT_URL = "SEM_VLOZTE_URL_APPSCRIPTU"; // <-- Změnit na URL nasazeného web app skriptu
+const APPSCRIPT_URL = "https://script.google.com/macros/s/AKfycbzXJtBgd21prdNLR7E3UraM9W80MQO1mi2n3rpoCH6fZbfeO9Ezf_yQoVwFYl4fT2ZmfA/exec"; // <-- Změnit na URL nasazeného web app skriptu
 document.getElementById("reg").addEventListener("submit",e=>{
   e.preventDefault();
   const f=e.target,m=document.getElementById("reg-msg"),btn=f.querySelector("button");
