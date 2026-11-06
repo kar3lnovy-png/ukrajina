@@ -4,7 +4,7 @@
 <link rel="icon" type="image/webp" href="favicon.webp">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Koláč pro Ukrajinu</title>
+<title>Neděle pro Ukrajinu</title>
 <meta name="description" content="Sbírka ve farnostech k 5. výročí ruské invaze. Neděle 28. 2. 2027. 100 % výtěžku na pomoc Ukrajině.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,10 +73,6 @@ input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus{background:
 .check input{width:28px;height:28px;accent-color:var(--blue);flex:none}
 .check label{margin:0}
 .ok{font-weight:800;background:var(--yellow);border:var(--line);padding:.75rem 1rem}
-.video{position:relative;aspect-ratio:16/9;background:var(--ink);border:var(--line);box-shadow:var(--shadow);display:grid;place-items:center;color:#fff;overflow:hidden}
-.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.video span{position:absolute;inset:auto auto 0 0;background:var(--yellow);color:var(--ink);font-weight:800;padding:.4rem .8rem}
-.video::before{content:"";width:0;height:0;border-left:clamp(30px,8vw,60px) solid var(--yellow);border-top:clamp(20px,5vw,38px) solid transparent;border-bottom:clamp(20px,5vw,38px) solid transparent}
 
 /* map */
 .mapbox{background:var(--paper);border:var(--line);box-shadow:var(--shadow);padding:clamp(.75rem,3vw,2rem)}
@@ -90,6 +86,32 @@ input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus{background:
 .parishes li{background:var(--paper);border:var(--line);padding:.9rem 1rem .9rem 3.5rem;position:relative;font-weight:800}
 .parishes li::before{content:"";position:absolute;left:1rem;top:1.1rem;width:1.4rem;height:1.4rem;border:var(--line);border-radius:50%;background:var(--c)}
 .parishes small{display:block;font-weight:400}
+
+/* tooltip */
+#map-tooltip {
+  position: absolute;
+  background: var(--ink);
+  color: #fff;
+  padding: .4rem .8rem;
+  font-weight: 800;
+  font-size: .9rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s;
+  z-index: 100;
+  transform: translate(-50%, -100%);
+  margin-top: -15px;
+}
+#map-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -6px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--ink) transparent transparent transparent;
+}
 
 /* sponsors */
 .logos{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
@@ -115,12 +137,13 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
 </style>
 </head>
 <body>
+<div id="map-tooltip"></div>
 <div class="stripe"></div>
 <header>
   <div class="wrap">
-    <a class="brand" href="#uvod" aria-label="Koláč pro Ukrajinu, úvod">
+    <a class="brand" href="#uvod" aria-label="Neděle pro Ukrajinu, úvod">
       <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="#fff"/><path d="M0 0h20v20H0z" fill="#0057b8"/><path d="M20 20h20v20H20z" fill="#ffd500"/><path d="M20 0a20 20 0 0 1 20 20H20z" fill="#000"/></svg>
-      Koláč pro Ukrajinu
+      Neděle pro Ukrajinu
     </a>
     <nav aria-label="Hlavní navigace">
       <a href="#uvod">Úvod</a>
@@ -159,7 +182,7 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
         <circle cx="200" cy="200" r="48" fill="none" stroke="#000" stroke-width="4"/>
       </svg>
       <div>
-        <h1>Koláč pro Ukrajinu</h1>
+        <h1>Neděle pro Ukrajinu</h1>
         <p class="sub">Sbírka ve farnostech k 5. výročí ruské invaze</p>
         <p class="date">Neděle 28. 2. 2027</p>
         <p class="claim">100 % výtěžku na pomoc Ukrajině</p>
@@ -189,15 +212,10 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
         <div><label for="f-email">E-mail</label><input type="email" id="f-email" name="email" required autocomplete="email"></div>
         <div><label for="f-tel">Telefon</label><input type="tel" id="f-tel" name="telefon" required autocomplete="tel"></div>
         <div class="check"><input type="checkbox" id="f-faraz" name="souhlas" required><label for="f-faraz">Máme souhlas faráře</label></div>
+        <div class="check"><input type="checkbox" id="f-odpovednost" name="odpovednost" required><label for="f-odpovednost">Beru na sebe odpovědnost za uspořádání sbírky v naší farnosti</label></div>
         <div><button class="btn" type="submit">Registrovat farnost</button></div>
         <p class="ok" id="reg-msg" role="status" hidden></p>
       </form>
-    </div>
-
-    <div class="section">
-      <h2>Záznam z informačního hovoru</h2>
-      <!-- VIDEO: vložte kód embedu (iframe) dovnitř tohoto bloku -->
-      <div class="video"><span>Záznam bude doplněn</span></div>
     </div>
 
     <div class="section">
@@ -251,9 +269,9 @@ const FARNOSTI=[
   {n:"Ukázková farnost",m:"Brno",lat:49.1951,lon:16.6068},
   {n:"Ukázková farnost",m:"Ostrava",lat:49.8209,lon:18.2625},
   {n:"Ukázková farnost",m:"Praha",lat:50.0755,lon:14.4378},
-  {n:"Ukázková farnost",m:"Plzeň",lat:49.7384,lon:13.3736}
+  {n:"Ukázková farnost",m:"Plzeň",lat:49.7384,lon:13.3736},
+  {n:"Farnost Pozořice",m:"Pozořice",lat:49.2208,lon:16.7925}
 ];
-const KONTAKT_EMAIL="info@example.cz"; /* sem přijdou registrace z formuláře */
 
 /* ---- mapa: piny podle souřadnic ---- */
 const svg=document.getElementById("cz"),NS="http://www.w3.org/2000/svg";
@@ -261,10 +279,26 @@ const W=612.45972,H=350.61844,L=12.090991,R=18.859691,TOP=51.055529,BOT=48.55122
 const mer=a=>Math.log(Math.tan(Math.PI/4+a*Math.PI/360));
 const pos=(lat,lon)=>[(lon-L)/(R-L)*W,(mer(TOP)-mer(lat))/(mer(TOP)-mer(BOT))*H];
 const cols=["#0057b8","#ffd500"],ul=document.getElementById("parishes");
+const mapTooltip = document.getElementById("map-tooltip");
+
 FARNOSTI.forEach((f,i)=>{
   const [x,y]=pos(f.lat,f.lon),c=cols[i%2],g=document.createElementNS(NS,"g");
   g.setAttribute("class","pin");g.setAttribute("transform",`translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+  g.style.cursor="pointer";
   g.innerHTML=`<title>${f.n}, ${f.m}</title><line y2="-24"/><circle cy="-34" r="12" fill="${c}"/><rect x="-3.5" y="-3.5" width="7" height="7"/>`;
+  
+  g.addEventListener("mouseenter", (e) => {
+    mapTooltip.textContent = `${f.n} (${f.m})`;
+    mapTooltip.style.opacity = 1;
+    mapTooltip.style.left = e.pageX + "px";
+    mapTooltip.style.top = e.pageY - 10 + "px";
+  });
+  g.addEventListener("mousemove", (e) => {
+    mapTooltip.style.left = e.pageX + "px";
+    mapTooltip.style.top = e.pageY - 10 + "px";
+  });
+  g.addEventListener("mouseleave", () => mapTooltip.style.opacity = 0);
+  
   svg.appendChild(g);
   const li=document.createElement("li");li.style.setProperty("--c",c);
   li.innerHTML=`${f.n}<small>${f.m}</small>`;ul.appendChild(li);
@@ -282,14 +316,30 @@ function route(){
 }
 addEventListener("hashchange",route);route();
 
-/* ---- formulář: otevře e-mail s vyplněnými údaji ---- */
+/* ---- formulář: odeslání přes AppScript ---- */
+const APPSCRIPT_URL = "SEM_VLOZTE_URL_APPSCRIPTU"; // <-- Změnit na URL nasazeného web app skriptu
 document.getElementById("reg").addEventListener("submit",e=>{
   e.preventDefault();
-  const f=e.target,m=document.getElementById("reg-msg");
+  const f=e.target,m=document.getElementById("reg-msg"),btn=f.querySelector("button");
   if(!f.checkValidity()){f.reportValidity();return}
-  const b=`Název farnosti: ${f.nazev.value}\nJméno: ${f.jmeno.value}\nE-mail: ${f.email.value}\nTelefon: ${f.telefon.value}\nSouhlas faráře: ano`;
-  location.href=`mailto:${KONTAKT_EMAIL}?subject=${encodeURIComponent("Registrace farnosti: "+f.nazev.value)}&body=${encodeURIComponent(b)}`;
-  m.textContent="Děkujeme. Otevřeli jsme e-mail s vašimi údaji, stačí ho odeslat.";m.hidden=false;
+  
+  btn.disabled=true;
+  btn.textContent="Odesílám...";
+  
+  fetch(APPSCRIPT_URL, {
+    method: "POST",
+    body: new FormData(f)
+  }).then(res => {
+    m.textContent="Děkujeme. Vaše farnost byla úspěšně registrována.";
+    m.hidden=false;
+    f.reset();
+  }).catch(err => {
+    m.textContent="Došlo k chybě při odesílání. Zkuste to prosím znovu.";
+    m.hidden=false;
+  }).finally(() => {
+    btn.disabled=false;
+    btn.textContent="Registrovat farnost";
+  });
 });
 </script>
 </body>
