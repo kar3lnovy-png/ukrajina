@@ -45,14 +45,17 @@ nav a[aria-current="page"]{background:var(--yellow);border-color:var(--ink)}
 
 /* hero */
 .hero{display:grid;gap:2rem}
-.kolac{display:block;width:min(100%,320px);height:auto;border:var(--line);box-shadow:var(--shadow);background:var(--paper)}
+.kolac{display:block;width:min(100%,320px);height:auto;border:var(--line);box-shadow:var(--shadow);background:var(--paper);order:2}
 .hero h1{font-size:clamp(2.6rem,13.5vw,6rem);margin:0 0 1rem}
 .sub{font-size:clamp(1.15rem,4.5vw,1.6rem);font-weight:600;max-width:24ch;margin-bottom:1.25rem}
 .date{display:inline-block;background:var(--blue);color:#fff;font-weight:800;padding:.4rem .9rem;margin-bottom:1.5rem}
-.claim{background:var(--yellow);border:var(--line);box-shadow:var(--shadow);padding:1rem 1.25rem;font-weight:900;font-size:clamp(1.3rem,5.5vw,2rem);line-height:1.15;margin-bottom:2rem;max-width:22ch}
-.total{margin-top:clamp(3rem,8vw,5rem);background:var(--ink);color:#fff;padding:clamp(1.5rem,5vw,3rem);border-left:clamp(14px,3vw,28px) solid var(--yellow)}
-.total p{font-weight:600}
-.total .num{display:block;font-weight:900;font-size:clamp(3.2rem,18vw,9rem);line-height:1;letter-spacing:.02em;font-variant-numeric:tabular-nums;color:var(--yellow);margin:.25rem 0}
+.claim{display:inline-block;background:var(--yellow);border:var(--line);padding:.35rem .8rem;font-weight:800;font-size:.95rem;line-height:1.2;margin:1.25rem 0 0}
+.btns{display:flex;flex-wrap:wrap;gap:1rem 1.25rem}
+.two{display:grid;gap:1.5rem}
+.two .block h3{font-size:1.5rem;margin-bottom:.75rem}
+.two .block p{margin-bottom:1.25rem}
+.two form{gap:1rem}
+.gdpr-note{font-size:.9rem;font-weight:400}
 
 /* cards */
 .grid{display:grid;gap:1.5rem}
@@ -69,7 +72,7 @@ form{display:grid;gap:1.25rem;max-width:620px}
 label,legend{font-weight:800;display:block;margin-bottom:.3rem}
 input[type=text],input[type=email],input[type=tel]{width:100%;font:inherit;padding:.75rem .9rem;border:var(--line);background:var(--grey);border-radius:0}
 input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus{background:#fff;outline:4px solid var(--yellow);outline-offset:0}
-.check{display:flex;gap:.75rem;align-items:center}
+.check{display:flex;gap:.75rem;align-items:flex-start}
 .check input{width:28px;height:28px;accent-color:var(--blue);flex:none}
 .check label{margin:0}
 .ok{font-weight:800;background:var(--yellow);border:var(--line);padding:.75rem 1rem}
@@ -123,6 +126,7 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
 
 @media(min-width:700px){
   .grid.cols{grid-template-columns:repeat(2,1fr)}
+  .two{grid-template-columns:1fr 1fr;align-items:start}
   .logos{grid-template-columns:repeat(4,1fr)}
   .parishes{grid-template-columns:repeat(2,1fr)}
   footer .wrap{grid-template-columns:1fr 1fr}
@@ -147,6 +151,7 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
     </a>
     <nav aria-label="Hlavní navigace">
       <a href="#uvod">Úvod</a>
+      <a href="#jak-se-zapojit">Jak se zapojit</a>
       <a href="#koordinatori">Koordinátoři</a>
       <a href="#farnosti">Farnosti</a>
       <a href="#sponzori">Akci podpořili</a>
@@ -185,8 +190,11 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
         <h1>Neděle pro Ukrajinu</h1>
         <p class="sub">Sbírka ve farnostech k 5. výročí ruské invaze</p>
         <p class="date">Neděle 28. 2. 2027</p>
+        <div class="btns">
+          <a class="btn" href="#registrace">Registrovat farnost</a>
+          <a class="btn alt" href="#jak-se-zapojit">Jak se zapojit</a>
+        </div>
         <p class="claim">100 % výtěžku na pomoc Ukrajině</p>
-        <a class="btn" href="#registrace">Registrovat farnost</a>
       </div>
     </div>
 
@@ -202,11 +210,33 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
       </div>
     </div>
 
-    <!-- POČÍTADLO: ručně přepište šest číslic níže (např. 012500) -->
-    <div class="total">
-      <p>Dosud vybráno (Kč)</p>
-      <span class="num" role="text" aria-label="Vybraná částka v korunách">000000</span>
+    <!-- JAK SE ZAPOJIT -->
+    <div class="section" id="jak-se-zapojit">
+      <h2>Jak se zapojit?</h2>
+      <p class="lead">Do sbírky se může zapojit kdokoliv. Stačí si vybrat, jak chcete pomoct.</p>
+      <div class="two">
+        <div class="block">
+          <h3>Zorganizuji sbírku ve své farnosti</h3>
+          <p>Jako koordinátor zajistíte, aby se ve vaší farnosti dobroty upekly, zabalily a po mši nabídly. Vše potřebné (pokladničky, plakáty, tácky) vám připravíme.</p>
+          <a class="btn" href="#registrace">Registrovat farnost</a>
+        </div>
+        <div class="block">
+          <h3>Chci jen péct</h3>
+          <p>Sbírku ve vaší farnosti organizuje někdo jiný, nebo ještě nikdo? Přihlaste se jako pekař a my váš kontakt předáme místnímu organizátorovi.</p>
+          <form id="pekar" class="js-form" novalidate data-ok="Děkujeme! Váš kontakt předáme organizátorovi ve vaší farnosti.">
+            <input type="hidden" name="typ" value="pekar">
+            <div><label for="p-jmeno">Vaše jméno</label><input type="text" id="p-jmeno" name="jmeno" required autocomplete="name"></div>
+            <div><label for="p-email">E-mail</label><input type="email" id="p-email" name="email" required autocomplete="email"></div>
+            <div><label for="p-farnost">Vaše farnost</label><input type="text" id="p-farnost" name="nazev" required></div>
+            <div class="check"><input type="checkbox" id="p-gdpr" name="gdpr" required><label for="p-gdpr">Souhlasím se zpracováním osobních údajů za účelem organizace sbírky. <span class="gdpr-note">Kontakt předáme místnímu organizátorovi.</span></label></div>
+            <div><button class="btn" type="submit">Chci péct</button></div>
+            <p class="ok" role="status" hidden></p>
+          </form>
+        </div>
+      </div>
     </div>
+
+    <!-- POČÍTADLO: v den sbírky vraťte blok <div class="total"> (CSS .total, .total p, .total .num) a ručně přepište šest číslic -->
   </div>
 </section>
 
@@ -214,17 +244,19 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
 <section class="page" id="p-koordinatori">
   <div class="wrap">
     <h2 class="title">Pro koordinátory farností</h2>
-    <p class="lead">Zapojte svou farnost do sbírky. Vyplňte formulář a my se vám ozveme s dalším postupem.</p>
+    <p class="lead">Chcete sbírku zorganizovat ve své farnosti? Vyplňte formulář a my se vám ozveme s dalším postupem. Chcete jen péct? <a href="#jak-se-zapojit">Přihlaste se tady.</a></p>
 
     <div class="block" id="registrace">
       <h3 style="font-size:1.6rem;margin-bottom:1.25rem">Registrace farnosti</h3>
-      <form id="reg" novalidate>
+      <form id="reg" class="js-form" novalidate data-ok="Děkujeme. Vaše farnost byla úspěšně registrována. Potvrzení jsme vám poslali e-mailem.">
+        <input type="hidden" name="typ" value="farnost">
         <div><label for="f-nazev">Název farnosti</label><input type="text" id="f-nazev" name="nazev" required autocomplete="organization"></div>
         <div><label for="f-jmeno">Vaše jméno</label><input type="text" id="f-jmeno" name="jmeno" required autocomplete="name"></div>
         <div><label for="f-email">E-mail</label><input type="email" id="f-email" name="email" required autocomplete="email"></div>
         <div><label for="f-tel">Telefon</label><input type="tel" id="f-tel" name="telefon" required autocomplete="tel"></div>
         <div class="check"><input type="checkbox" id="f-faraz" name="souhlas" required><label for="f-faraz">Máme souhlas faráře</label></div>
         <div class="check"><input type="checkbox" id="f-odpovednost" name="odpovednost" required><label for="f-odpovednost">Beru na sebe odpovědnost za uspořádání sbírky v naší farnosti</label></div>
+        <div class="check"><input type="checkbox" id="f-gdpr" name="gdpr" required><label for="f-gdpr">Souhlasím se zpracováním osobních údajů za účelem organizace sbírky.</label></div>
         <div><button class="btn" type="submit">Registrovat farnost</button></div>
         <p class="ok" id="reg-msg" role="status" hidden></p>
       </form>
@@ -329,39 +361,29 @@ FARNOSTI.forEach((f,i)=>{
 
 /* ---- stránky ---- */
 const pages=[...document.querySelectorAll(".page")],links=[...document.querySelectorAll("nav a")];
-const alias={registrace:"koordinatori"};
+const alias={registrace:"koordinatori","jak-se-zapojit":"uvod"};
 function route(){
   const h=location.hash.slice(1)||"uvod";let id=alias[h]||h;
   if(!document.getElementById("p-"+id))id="uvod";
   pages.forEach(p=>p.hidden=p.id!=="p-"+id);
   links.forEach(a=>a.getAttribute("href")==="#"+id?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
-  if(h==="registrace")document.getElementById("registrace").scrollIntoView();else window.scrollTo(0,0);
+  const t=alias[h]?document.getElementById(h):null;
+  if(t)t.scrollIntoView();else window.scrollTo(0,0);
 }
 addEventListener("hashchange",route);route();
 
-/* ---- formulář: odeslání přes AppScript ---- */
+/* ---- formuláře: odeslání přes AppScript ---- */
 const APPSCRIPT_URL = "https://script.google.com/macros/s/AKfycbzXJtBgd21prdNLR7E3UraM9W80MQO1mi2n3rpoCH6fZbfeO9Ezf_yQoVwFYl4fT2ZmfA/exec"; // <-- Změnit na URL nasazeného web app skriptu
-document.getElementById("reg").addEventListener("submit",e=>{
-  e.preventDefault();
-  const f=e.target,m=document.getElementById("reg-msg"),btn=f.querySelector("button");
-  if(!f.checkValidity()){f.reportValidity();return}
-  
-  btn.disabled=true;
-  btn.textContent="Odesílám...";
-  
-  fetch(APPSCRIPT_URL, {
-    method: "POST",
-    body: new FormData(f)
-  }).then(res => {
-    m.textContent="Děkujeme. Vaše farnost byla úspěšně registrována. Brzy se vám ozveme s podrobnějšími informacemi.";
-    m.hidden=false;
-    f.reset();
-  }).catch(err => {
-    m.textContent="Došlo k chybě při odesílání. Zkuste to prosím znovu.";
-    m.hidden=false;
-  }).finally(() => {
-    btn.disabled=false;
-    btn.textContent="Registrovat farnost";
+document.querySelectorAll("form.js-form").forEach(f=>{
+  f.addEventListener("submit",e=>{
+    e.preventDefault();
+    const m=f.querySelector(".ok"),btn=f.querySelector("button"),label=btn.textContent;
+    if(!f.checkValidity()){f.reportValidity();return}
+    btn.disabled=true;btn.textContent="Odesílám...";
+    fetch(APPSCRIPT_URL,{method:"POST",body:new FormData(f)})
+      .then(()=>{m.textContent=f.dataset.ok;m.hidden=false;f.reset();})
+      .catch(()=>{m.textContent="Došlo k chybě při odesílání. Zkuste to prosím znovu.";m.hidden=false;})
+      .finally(()=>{btn.disabled=false;btn.textContent=label;});
   });
 });
 </script>
