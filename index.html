@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<link rel="icon" type="image/webp" href="favicon.webp">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://script.googleusercontent.com; img-src 'self' data:; script-src 'self' 'unsafe-inline'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="icon" type="image/webp" href="favicon.webp">
 <title>Pečeme pro Ukrajinu</title>
 <meta name="description" content="Sbírka ve farnostech k 5. výročí ruské invaze. Neděle 28. 2. 2027. 100 % výtěžku na pomoc Ukrajině.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,8 +21,8 @@ a{color:inherit}
 :focus-visible{outline:4px solid var(--blue);outline-offset:3px}
 .wrap{max-width:1100px;margin:0 auto;padding:0 var(--pad)}
 .stripe{height:12px;background:linear-gradient(var(--blue) 50%,var(--yellow) 50%)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
-/* header */
 header{background:var(--paper);border-bottom:var(--line)}
 header .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 2rem;padding-top:1rem;padding-bottom:1rem}
 .brand{display:flex;align-items:center;gap:.75rem;font-weight:900;text-decoration:none;font-size:1.15rem;line-height:1}
@@ -30,7 +32,6 @@ nav a{font-weight:800;text-decoration:none;padding:.4rem .7rem;border:3px solid 
 nav a:hover{border-color:var(--ink)}
 nav a[aria-current="page"]{background:var(--yellow);border-color:var(--ink)}
 
-/* shared */
 .page{padding:clamp(2rem,6vw,4.5rem) 0 clamp(3rem,8vw,6rem)}
 .title{font-size:clamp(2rem,8.5vw,3.75rem);margin-bottom:1.25rem;padding-top:1.25rem;position:relative;max-width:16ch}
 .title::before{content:"";position:absolute;top:0;left:0;width:4.5rem;height:.7rem;background:linear-gradient(90deg,var(--blue) 66%,var(--yellow) 66%)}
@@ -39,11 +40,11 @@ nav a[aria-current="page"]{background:var(--yellow);border-color:var(--ink)}
 .btn{display:inline-block;font:inherit;font-weight:800;font-size:1.1rem;background:var(--blue);color:#fff;border:var(--line);box-shadow:var(--shadow);padding:.9rem 1.6rem;text-decoration:none;cursor:pointer;transition:transform .12s,box-shadow .12s}
 .btn:hover{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
 .btn:active{transform:translate(6px,6px);box-shadow:0 0 0 var(--ink)}
+.btn:disabled{opacity:.6;cursor:wait}
 .btn.alt{background:var(--yellow);color:var(--ink)}
 .section{margin-top:clamp(3rem,8vw,5rem)}
 .section>h2{font-size:clamp(1.6rem,6vw,2.5rem);margin-bottom:1.25rem}
 
-/* hero */
 .hero{display:grid;gap:2rem}
 .kolac{display:block;width:min(100%,320px);height:auto;border:var(--line);box-shadow:var(--shadow);background:var(--paper);order:2}
 .hero h1{font-size:clamp(2.6rem,13.5vw,6rem);margin:0 0 1rem}
@@ -57,17 +58,14 @@ nav a[aria-current="page"]{background:var(--yellow);border-color:var(--ink)}
 .two form{gap:1rem}
 .gdpr-note{font-size:.9rem;font-weight:400}
 
-/* cards */
 .grid{display:grid;gap:1.5rem}
 .card{background:var(--paper);border:var(--line);box-shadow:var(--shadow);padding:1.25rem;display:flex;flex-direction:column;gap:.5rem}
 .card h3{font-size:1.3rem}
-.card a{font-weight:800;margin-top:auto;padding-top:.5rem}
 .sh{width:44px;height:44px;margin-bottom:.5rem;background:var(--blue)}
 .sh.c{border-radius:50%;background:var(--yellow);border:var(--line)}
 .sh.q{border-top-left-radius:100%;background:var(--ink)}
 .sh.h{background:linear-gradient(var(--blue) 50%,var(--yellow) 50%)}
 
-/* form */
 form{display:grid;gap:1.25rem;max-width:620px}
 label,legend{font-weight:800;display:block;margin-bottom:.3rem}
 input[type=text],input[type=email],input[type=tel]{width:100%;font:inherit;padding:.75rem .9rem;border:var(--line);background:var(--grey);border-radius:0}
@@ -76,8 +74,8 @@ input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus{background:
 .check input{width:28px;height:28px;accent-color:var(--blue);flex:none}
 .check label{margin:0}
 .ok{font-weight:800;background:var(--yellow);border:var(--line);padding:.75rem 1rem}
+.ok[hidden]{display:none}
 
-/* map */
 .mapbox{background:var(--paper);border:var(--line);box-shadow:var(--shadow);padding:clamp(.75rem,3vw,2rem)}
 .mapbox svg{display:block;width:100%;height:auto}
 #regions{fill:var(--grey);stroke:#fff;stroke-width:1.5;filter:drop-shadow(5px 5px 0 var(--blue))}
@@ -90,35 +88,8 @@ input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus{background:
 .parishes li::before{content:"";position:absolute;left:1rem;top:1.1rem;width:1.4rem;height:1.4rem;border:var(--line);border-radius:50%;background:var(--c)}
 .parishes small{display:block;font-weight:400}
 
-/* tooltip */
-#map-tooltip {
-  position: absolute;
-  background: var(--ink);
-  color: #fff;
-  padding: .4rem .8rem;
-  font-weight: 800;
-  font-size: .9rem;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .2s;
-  z-index: 100;
-  transform: translate(-50%, -100%);
-  margin-top: -15px;
-}
-#map-tooltip::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -6px;
-  border-width: 6px;
-  border-style: solid;
-  border-color: var(--ink) transparent transparent transparent;
-}
-
-/* sponsors */
-.logos{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
-.logos div{aspect-ratio:3/2;display:grid;place-items:center;background:var(--paper);border:var(--line);font-weight:600;text-align:center;padding:.5rem}
+#map-tooltip{position:absolute;background:var(--ink);color:#fff;padding:.4rem .8rem;font-weight:800;font-size:.9rem;pointer-events:none;opacity:0;transition:opacity .2s;z-index:100;transform:translate(-50%,-100%);margin-top:-15px}
+#map-tooltip::after{content:"";position:absolute;top:100%;left:50%;margin-left:-6px;border-width:6px;border-style:solid;border-color:var(--ink) transparent transparent transparent}
 
 footer{background:var(--ink);color:#fff;margin-top:0}
 footer .wrap{display:grid;gap:1.5rem;padding-top:2.5rem;padding-bottom:2.5rem}
@@ -127,7 +98,6 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
 @media(min-width:700px){
   .grid.cols{grid-template-columns:repeat(2,1fr)}
   .two{grid-template-columns:1fr 1fr;align-items:start}
-  .logos{grid-template-columns:repeat(4,1fr)}
   .parishes{grid-template-columns:repeat(2,1fr)}
   footer .wrap{grid-template-columns:1fr 1fr}
 }
@@ -137,7 +107,7 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
   .grid.cols{grid-template-columns:repeat(4,1fr)}
   .parishes{grid-template-columns:repeat(3,1fr)}
 }
-@media(prefers-reduced-motion:reduce){.btn{transition:none}}
+@media(prefers-reduced-motion:reduce){.btn,#map-tooltip{transition:none}}
 </style>
 </head>
 <body>
@@ -151,7 +121,6 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
     </a>
     <nav aria-label="Hlavní navigace">
       <a href="#uvod">Úvod</a>
-      <a href="#jak-se-zapojit">Jak se zapojit</a>
       <a href="#koordinatori">Koordinátoři</a>
       <a href="#farnosti">Farnosti</a>
       <a href="#sponzori">Akci podpořili</a>
@@ -198,7 +167,6 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
       </div>
     </div>
 
-    <!-- JAK TO FUNGUJE -->
     <div class="section">
       <h2>Jak to funguje?</h2>
       <p class="lead">Koncept sbírky je postavený na zapojení celé farnosti. Od domácí přípravy až po společné setkání před kostelem.</p>
@@ -210,7 +178,6 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
       </div>
     </div>
 
-    <!-- JAK SE ZAPOJIT -->
     <div class="section" id="jak-se-zapojit">
       <h2>Jak se zapojit?</h2>
       <p class="lead">Do sbírky se může zapojit kdokoliv. Stačí si vybrat, jak chcete pomoct.</p>
@@ -225,9 +192,11 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
           <p>Sbírku ve vaší farnosti organizuje někdo jiný, nebo ještě nikdo? Přihlaste se jako pekař a my váš kontakt předáme místnímu organizátorovi.</p>
           <form id="pekar" class="js-form" novalidate data-ok="Děkujeme! Váš kontakt předáme organizátorovi ve vaší farnosti.">
             <input type="hidden" name="typ" value="pekar">
-            <div><label for="p-jmeno">Vaše jméno</label><input type="text" id="p-jmeno" name="jmeno" required autocomplete="name"></div>
-            <div><label for="p-email">E-mail</label><input type="email" id="p-email" name="email" required autocomplete="email"></div>
-            <div><label for="p-farnost">Vaše farnost</label><input type="text" id="p-farnost" name="nazev" required></div>
+            <input type="hidden" name="t" value="">
+            <div class="hp" aria-hidden="true"><label>Web <input type="text" name="web" tabindex="-1" autocomplete="off"></label></div>
+            <div><label for="p-jmeno">Vaše jméno</label><input type="text" id="p-jmeno" name="jmeno" required maxlength="100" autocomplete="name"></div>
+            <div><label for="p-email">E-mail</label><input type="email" id="p-email" name="email" required maxlength="254" autocomplete="email"></div>
+            <div><label for="p-farnost">Vaše farnost</label><input type="text" id="p-farnost" name="nazev" required maxlength="120"></div>
             <div class="check"><input type="checkbox" id="p-gdpr" name="gdpr" required><label for="p-gdpr">Souhlasím se zpracováním osobních údajů za účelem organizace sbírky. <span class="gdpr-note">Kontakt předáme místnímu organizátorovi.</span></label></div>
             <div><button class="btn" type="submit">Chci péct</button></div>
             <p class="ok" role="status" hidden></p>
@@ -235,8 +204,6 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
         </div>
       </div>
     </div>
-
-    <!-- POČÍTADLO: v den sbírky vraťte blok <div class="total"> (CSS .total, .total p, .total .num) a ručně přepište šest číslic -->
   </div>
 </section>
 
@@ -248,12 +215,14 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
 
     <div class="block" id="registrace">
       <h3 style="font-size:1.6rem;margin-bottom:1.25rem">Registrace farnosti</h3>
-      <form id="reg" class="js-form" novalidate data-ok="Děkujeme. Vaše farnost byla úspěšně registrována. Potvrzení jsme vám poslali e-mailem.">
+      <form id="reg" class="js-form" novalidate data-ok="Děkujeme. Vaše farnost byla úspěšně registrována. Potvrzení vám pošleme e-mailem během několika minut.">
         <input type="hidden" name="typ" value="farnost">
-        <div><label for="f-nazev">Název farnosti</label><input type="text" id="f-nazev" name="nazev" required autocomplete="organization"></div>
-        <div><label for="f-jmeno">Vaše jméno</label><input type="text" id="f-jmeno" name="jmeno" required autocomplete="name"></div>
-        <div><label for="f-email">E-mail</label><input type="email" id="f-email" name="email" required autocomplete="email"></div>
-        <div><label for="f-tel">Telefon</label><input type="tel" id="f-tel" name="telefon" required autocomplete="tel"></div>
+        <input type="hidden" name="t" value="">
+        <div class="hp" aria-hidden="true"><label>Web <input type="text" name="web" tabindex="-1" autocomplete="off"></label></div>
+        <div><label for="f-nazev">Název farnosti</label><input type="text" id="f-nazev" name="nazev" required maxlength="120" autocomplete="organization"></div>
+        <div><label for="f-jmeno">Vaše jméno</label><input type="text" id="f-jmeno" name="jmeno" required maxlength="100" autocomplete="name"></div>
+        <div><label for="f-email">E-mail</label><input type="email" id="f-email" name="email" required maxlength="254" autocomplete="email"></div>
+        <div><label for="f-tel">Telefon</label><input type="tel" id="f-tel" name="telefon" required maxlength="30" pattern="[0-9+() \-]{9,30}" autocomplete="tel"></div>
         <div class="check"><input type="checkbox" id="f-faraz" name="souhlas" required><label for="f-faraz">Máme souhlas faráře</label></div>
         <div class="check"><input type="checkbox" id="f-odpovednost" name="odpovednost" required><label for="f-odpovednost">Beru na sebe odpovědnost za uspořádání sbírky v naší farnosti</label></div>
         <div class="check"><input type="checkbox" id="f-gdpr" name="gdpr" required><label for="f-gdpr">Souhlasím se zpracováním osobních údajů za účelem organizace sbírky.</label></div>
@@ -302,7 +271,6 @@ footer h2{font-size:1.2rem;color:var(--yellow);margin-bottom:.4rem}
   <div class="wrap">
     <h2 class="title">Podpořili nás:</h2>
     <p class="lead">Díky partnerům může sbírka proběhnout. Chcete se přidat? Napište nám na <a href="mailto:info@proukrajinu.eu">info@proukrajinu.eu</a>.</p>
-    </div>
   </div>
 </section>
 </main>
@@ -321,35 +289,43 @@ const FARNOSTI=[
   {n:"Farnost Pozořice",m:"Pozořice",lat:49.2208,lon:16.7925}
 ];
 
-/* ---- mapa: piny podle souřadnic ---- */
+/* ---- mapa: piny podle souřadnic (bez innerHTML s daty ze seznamu) ---- */
 const svg=document.getElementById("cz"),NS="http://www.w3.org/2000/svg";
 const W=612.45972,H=350.61844,L=12.090991,R=18.859691,TOP=51.055529,BOT=48.551226;
 const mer=a=>Math.log(Math.tan(Math.PI/4+a*Math.PI/360));
 const pos=(lat,lon)=>[(lon-L)/(R-L)*W,(mer(TOP)-mer(lat))/(mer(TOP)-mer(BOT))*H];
 const cols=["#0057b8","#ffd500"],ul=document.getElementById("parishes");
-const mapTooltip = document.getElementById("map-tooltip");
+const mapTooltip=document.getElementById("map-tooltip");
+
+function el(name,attrs){
+  const e=document.createElementNS(NS,name);
+  for(const k in attrs)e.setAttribute(k,attrs[k]);
+  return e;
+}
 
 FARNOSTI.forEach((f,i)=>{
-  const [x,y]=pos(f.lat,f.lon),c=cols[i%2],g=document.createElementNS(NS,"g");
-  g.setAttribute("class","pin");g.setAttribute("transform",`translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+  const [x,y]=pos(f.lat,f.lon),c=cols[i%2];
+  const g=el("g",{"class":"pin",transform:`translate(${x.toFixed(1)} ${y.toFixed(1)})`});
   g.style.cursor="pointer";
-  g.innerHTML=`<title>${f.n}, ${f.m}</title><line y2="-24"/><circle cy="-34" r="12" fill="${c}"/><rect x="-3.5" y="-3.5" width="7" height="7"/>`;
-  
-  g.addEventListener("mouseenter", (e) => {
-    mapTooltip.textContent = `${f.n} (${f.m})`;
-    mapTooltip.style.opacity = 1;
-    mapTooltip.style.left = e.pageX + "px";
-    mapTooltip.style.top = e.pageY - 10 + "px";
-  });
-  g.addEventListener("mousemove", (e) => {
-    mapTooltip.style.left = e.pageX + "px";
-    mapTooltip.style.top = e.pageY - 10 + "px";
-  });
-  g.addEventListener("mouseleave", () => mapTooltip.style.opacity = 0);
-  
+  const title=el("title",{});title.textContent=`${f.n}, ${f.m}`;
+  g.appendChild(title);
+  g.appendChild(el("line",{y2:"-24"}));
+  g.appendChild(el("circle",{cy:"-34",r:"12",fill:c}));
+  g.appendChild(el("rect",{x:"-3.5",y:"-3.5",width:"7",height:"7"}));
+
+  const move=e=>{mapTooltip.style.left=e.pageX+"px";mapTooltip.style.top=(e.pageY-10)+"px"};
+  g.addEventListener("mouseenter",e=>{mapTooltip.textContent=`${f.n} (${f.m})`;mapTooltip.style.opacity=1;move(e)});
+  g.addEventListener("mousemove",move);
+  g.addEventListener("mouseleave",()=>{mapTooltip.style.opacity=0});
   svg.appendChild(g);
-  const li=document.createElement("li");li.style.setProperty("--c",c);
-  li.innerHTML=`${f.n}<small>${f.m}</small>`;ul.appendChild(li);
+
+  const li=document.createElement("li");
+  li.style.setProperty("--c",c);
+  li.append(f.n);
+  const sm=document.createElement("small");
+  sm.textContent=f.m;
+  li.appendChild(sm);
+  ul.appendChild(li);
 });
 
 /* ---- stránky ---- */
@@ -365,17 +341,24 @@ function route(){
 }
 addEventListener("hashchange",route);route();
 
-/* ---- formuláře: odeslání přes AppScript ---- */
-const APPSCRIPT_URL = "https://script.google.com/macros/s/AKfycbwrCi1SGSZyAsnzNmLyNn4N_43cAU5LNU1K_HrFMEyJVAuwgqaRejqdy1PZvY7tWZaiig/exec"; // <-- Změnit na URL nasazeného web app skriptu
+/* ---- formuláře ---- */
+const APPSCRIPT_URL="https://script.google.com/macros/s/AKfycbwrCi1SGSZyAsnzNmLyNn4N_43cAU5LNU1K_HrFMEyJVAuwgqaRejqdy1PZvY7tWZaiig/exec";
+const T0=Date.now();
 document.querySelectorAll("form.js-form").forEach(f=>{
+  f.querySelector('input[name="t"]').value=T0;
   f.addEventListener("submit",e=>{
     e.preventDefault();
     const m=f.querySelector(".ok"),btn=f.querySelector("button"),label=btn.textContent;
+    if(btn.disabled)return;
     if(!f.checkValidity()){f.reportValidity();return}
     btn.disabled=true;btn.textContent="Odesílám...";
     fetch(APPSCRIPT_URL,{method:"POST",body:new FormData(f)})
-      .then(()=>{m.textContent=f.dataset.ok;m.hidden=false;f.reset();})
-      .catch(()=>{m.textContent="Došlo k chybě při odesílání. Zkuste to prosím znovu.";m.hidden=false;})
+      .then(r=>{
+        if(!r.ok)throw new Error("HTTP "+r.status);
+        m.textContent=f.dataset.ok;m.hidden=false;f.reset();
+        f.querySelector('input[name="t"]').value=T0;
+      })
+      .catch(()=>{m.textContent="Došlo k chybě při odesílání. Zkuste to prosím znovu, případně nám napište na info@proukrajinu.eu.";m.hidden=false;})
       .finally(()=>{btn.disabled=false;btn.textContent=label;});
   });
 });
