@@ -87,7 +87,18 @@ input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus{background:
 .parishes li{background:var(--paper);border:var(--line);padding:.9rem 1rem .9rem 3.5rem;position:relative;font-weight:800}
 .parishes li::before{content:"";position:absolute;left:1rem;top:1.1rem;width:1.4rem;height:1.4rem;border:var(--line);border-radius:50%;background:var(--c)}
 .parishes small{display:block;font-weight:400}
-
+.mapwrap{position:relative}
+.pin{cursor:pointer}
+.pin:focus{outline:none}
+.pin:focus-visible circle,.pin.active circle{stroke-width:6}
+.pin text{font-family:Archivo,Arial,sans-serif;font-weight:900;font-size:13px;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.pin-pop{position:absolute;transform:translateX(-50%);z-index:20;background:var(--paper);border:var(--line);box-shadow:var(--shadow);padding:1rem 3rem 1rem 1rem;min-width:200px;max-width:min(320px,90%)}
+.pin-pop[hidden]{display:none}
+.pin-pop h3{font-size:1.25rem;margin-bottom:.6rem}
+.pin-pop ul{list-style:none;padding:0;display:grid;gap:.4rem;font-weight:600}
+.pin-pop li{padding-left:1.1rem;position:relative}
+.pin-pop li::before{content:"";position:absolute;left:0;top:.5em;width:.55rem;height:.55rem;background:var(--yellow);border:2px solid var(--ink)}
+.pin-x{position:absolute;top:.5rem;right:.5rem;width:2rem;height:2rem;padding:0;font-family:inherit;font-size:1.3rem;font-weight:900;line-height:1;background:var(--yellow);border:var(--line);cursor:pointer}
 #map-tooltip{position:absolute;background:var(--ink);color:#fff;padding:.4rem .8rem;font-weight:800;font-size:.9rem;pointer-events:none;opacity:0;transition:opacity .2s;z-index:100;transform:translate(-50%,-100%);margin-top:-15px}
 #map-tooltip::after{content:"";position:absolute;top:100%;left:50%;margin-left:-6px;border-width:6px;border-style:solid;border-color:var(--ink) transparent transparent transparent}
 
