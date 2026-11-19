@@ -308,7 +308,7 @@ const FARNOSTI=[
   {n:"Farnost Velká Bíteš",m:"Velká Bíteš",lat:49.2886,lon:16.2258}
 ];
 
-/* ---- mapa: piny podle souřadnic (bez innerHTML s daty ze seznamu) ---- */
+/* ---- mapa: piny podle měst, po kliknutí seznam farností ---- */
 const svg=document.getElementById("cz"),NS="http://www.w3.org/2000/svg";
 const W=612.45972,H=350.61844,L=12.090991,R=18.859691,TOP=51.055529,BOT=48.551226;
 const mer=a=>Math.log(Math.tan(Math.PI/4+a*Math.PI/360));
@@ -322,27 +322,91 @@ function el(name,attrs){
   return e;
 }
 
-FARNOSTI.forEach((f,i)=>{
-  const [x,y]=pos(f.lat,f.lon),c=cols[i%2];
-  const g=el("g",{"class":"pin",transform:`translate(${x.toFixed(1)} ${y.toFixed(1)})`});
-  g.style.cursor="pointer";
-  const title=el("title",{});title.textContent=`${f.n}, ${f.m}`;
-  g.appendChild(title);
+/* seskupení farností podle města (klíč = přesný název města v poli m) */
+const MESTA=new Map();
+FARNOSTI.forEach(f=>{
+  if(!MESTA.has(f.m))MESTA.set(f.m,{m:f.m,lat:f.lat,lon:f.lon,farnosti:[]});
+  MESTA.get(f.m).farnosti.push(f.n);
+});
+
+/* obal mapy + vyskakovací okno */
+const wrap=document.createElement("div");
+wrap.className="mapwrap";
+svg.replaceWith(wrap);wrap.appendChild(svg);
+
+const pop=document.createElement("div");
+pop.className="pin-pop";pop.hidden=true;pop.setAttribute("role","dialog");
+const popClose=document.createElement("button");
+popClose.type="button";popClose.className="pin-x";
+popClose.setAttribute("aria-label","Zavřít");popClose.textContent="×";
+const popTitle=document.createElement("h3");
+const popList=document.createElement("ul");
+pop.append(popClose,popTitle,popList);
+wrap.appendChild(pop);
+
+let activePin=null;
+function closePop(){
+  pop.hidden=true;
+  if(activePin)activePin.classList.remove("active");
+  activePin=null;
+}
+function openPop(g,city,x,y){
+  closePop();
+  popTitle.textContent=city.m;
+  popList.replaceChildren();
+  city.farnosti.forEach(n=>{
+    const li=document.createElement("li");
+    li.textContent=n;
+    popList.appendChild(li);
+  });
+  pop.hidden=false;
+  g.classList.add("active");activePin=g;
+  const k=svg.getBoundingClientRect().width/W,half=pop.offsetWidth/2;
+  const px=Math.max(half,Math.min(wrap.clientWidth-half,x*k));
+  pop.style.left=px+"px";
+  pop.style.top=(y*k+8)+"px";
+}
+popClose.addEventListener("click",closePop);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closePop()});
+document.addEventListener("click",e=>{
+  if(!pop.hidden&&!pop.contains(e.target)&&!(activePin&&activePin.contains(e.target)))closePop();
+});
+addEventListener("resize",closePop);
+addEventListener("hashchange",closePop);
+
+[...MESTA.values()].forEach((city,i)=>{
+  const [x,y]=pos(city.lat,city.lon),c=cols[i%2],cnt=city.farnosti.length;
+  const g=el("g",{"class":"pin",transform:`translate(${x.toFixed(1)} ${y.toFixed(1)})`,
+    tabindex:"0",role:"button",
+    "aria-label":`${city.m}: ${cnt} ${cnt===1?"farnost":cnt<5?"farnosti":"farností"}`});
   g.appendChild(el("line",{y2:"-24"}));
   g.appendChild(el("circle",{cy:"-34",r:"12",fill:c}));
-  g.appendChild(el("rect",{x:"-3.5",y:"-3.5",width:"7",height:"7"}));
+  if(cnt>1){
+    const t=el("text",{y:"-34",fill:c==="#0057b8"?"#fff":"#000"});
+    t.textContent=cnt;
+    g.appendChild(t);
+  }else{
+    g.appendChild(el("rect",{x:"-3.5",y:"-3.5",width:"7",height:"7"}));
+  }
 
   const move=e=>{mapTooltip.style.left=e.pageX+"px";mapTooltip.style.top=(e.pageY-10)+"px"};
-  g.addEventListener("mouseenter",e=>{mapTooltip.textContent=`${f.n} (${f.m})`;mapTooltip.style.opacity=1;move(e)});
+  g.addEventListener("mouseenter",e=>{mapTooltip.textContent=city.m;mapTooltip.style.opacity=1;move(e)});
   g.addEventListener("mousemove",move);
   g.addEventListener("mouseleave",()=>{mapTooltip.style.opacity=0});
+  g.addEventListener("click",()=>{
+    if(activePin===g)closePop();else openPop(g,city,x,y);
+  });
+  g.addEventListener("keydown",e=>{
+    if(e.key==="Enter"||e.key===" "){e.preventDefault();g.dispatchEvent(new Event("click",{bubbles:true}))}
+  });
   svg.appendChild(g);
 
+  /* seznam pod mapou */
   const li=document.createElement("li");
   li.style.setProperty("--c",c);
-  li.append(f.n);
+  li.append(city.m);
   const sm=document.createElement("small");
-  sm.textContent=f.m;
+  sm.textContent=city.farnosti.join(", ");
   li.appendChild(sm);
   ul.appendChild(li);
 });
